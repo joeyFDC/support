@@ -1,6 +1,6 @@
 <?php
 
-namespace FDC\Support\ServiceProvidcders;
+namespace FDC\Support\ServiceProviders;
 
 use FDC\Support\Deposco;
 use Illuminate\Support\ServiceProvider;
@@ -8,7 +8,7 @@ use Illuminate\Support\ServiceProvider;
 class DeposcoServiceProvider extends ServiceProvider
 {
 	protected static string $config = __DIR__ . '/../../config/deposco.php';
-	protected static string $routes = __DIR__ . '../../routes/deposco.php';
+	protected static string $routes = __DIR__ . '/../../routes/deposco.php';
 
 	public function boot(): void
 	{

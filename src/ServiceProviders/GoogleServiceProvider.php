@@ -1,17 +1,13 @@
 <?php
 
-namespace FDC\Support\ServiceProvidcders;
+namespace FDC\Support\ServiceProviders;
 
+use FDC\Support\Google;
 use Illuminate\Support\ServiceProvider;
 
 class GoogleServiceProvider extends ServiceProvider
 {
-	protected static string $routes = __DIR__ . '/routes.php';
-	protected static string $lang = __DIR__ . '/../resources/lang';
-	protected static string $views = __DIR__ . '/../resources/views';
-	protected static string $assets = __DIR__ . '/../resources/assets';
-	protected static string $config = __DIR__ . '/../config/google.php';
-	protected static string $migrations = __DIR__ . '/../database/migrations';
+	protected static $config = __DIR__ . '/../../config/google.php';
 
 	/**
 	 * Perform post-registration booting of services.
@@ -20,11 +16,6 @@ class GoogleServiceProvider extends ServiceProvider
 	 */
 	public function boot(): void
 	{
-		// $this->loadTranslationsFrom(self::$lang, 'google');
-		// $this->loadViewsFrom(self::$views, 'google');
-		// $this->loadMigrationsFrom(self::$migrations);
-		// $this->loadRoutesFrom(self::$routes);
-
 		// Provide publishing options and commands for Artisan.
 		$this->app->runningInConsole() && $this->bootForConsole();
 	}
@@ -63,17 +54,5 @@ class GoogleServiceProvider extends ServiceProvider
 	{
 		// Publish config
 		$this->publishes([self::$config => config_path('fdc/google.php')], 'google.config');
-
-		// Publish views
-		//$this->publishes([self::$views => resource_path('views/vendor/fdc')], 'google.views');
-
-		// Publish assets
-		//$this->publishes([self::$assets => public_path('vendor/fdc')], 'google.assets');
-
-		// Publish translation files
-		//$this->publishes([self::$lang => resource_path('lang/vendor/fdc')], 'google.lang');
-
-		// Register package commands
-		// $this->commands([]);
 	}
 }

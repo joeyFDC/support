@@ -1,6 +1,6 @@
 <?php
 
-namespace FDC\Support\ServiceProvidcders;
+namespace FDC\Support\ServiceProviders;
 
 use FDC\Support\Filter;
 use Illuminate\Support\ServiceProvider;

@@ -1,6 +1,6 @@
 <?php
 
-namespace FDC\Support\Deposco\Concerns;
+namespace FDC\Support\Concerns\Deposco;
 
 use Illuminate\Support\Facades\Http;
 

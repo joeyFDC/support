@@ -1,6 +1,6 @@
 <?php
 
-namespace FDC\Support\ServiceProvidcders;
+namespace FDC\Support\ServiceProviders;
 
 use FDC\Support\Commands\ExportCommand;
 use FDC\Support\Commands\GetGoogleSheetCommand;
@@ -10,11 +10,7 @@ use Illuminate\Support\ServiceProvider;
 
 class SheetsServiceProvider extends ServiceProvider
 {
-	protected static string $routes = __DIR__ . '/routes.php';
-	protected static string $lang = __DIR__ . '/../resources/lang';
-	protected static string $views = __DIR__ . '/../resources/views';
-	protected static string $config = __DIR__ . '/../config/sheets.php';
-	protected static string $migrations = __DIR__ . '/../database/migrations';
+	protected static $config = __DIR__ . '/../../config/sheets.php';
 
 	/**
 	 * Perform post-registration booting of services.
@@ -23,11 +19,6 @@ class SheetsServiceProvider extends ServiceProvider
 	 */
 	public function boot(): void
 	{
-		// $this->loadTranslationsFrom(self::$lang, 'sheets');
-		// $this->loadViewsFrom(self::$views, 'sheets');
-		// $this->loadMigrationsFrom(self::$migrations);
-		// $this->loadRoutesFrom(self::$routes);
-
 		// Publishing is only necessary when using the CLI.
 		$this->app->runningInConsole() && $this->bootForConsole();
 	}
