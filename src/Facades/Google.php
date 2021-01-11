@@ -4,7 +4,7 @@ namespace FDC\Support\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class Filter extends Facade
+class Google extends Facade
 {
 	/**
 	 * Get the registered name of the component.
@@ -13,6 +13,6 @@ class Filter extends Facade
 	 */
 	protected static function getFacadeAccessor(): string
 	{
-		return 'filter';
+		return 'google';
 	}
 }
