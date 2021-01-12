@@ -2,8 +2,8 @@
 
 namespace FDC\Support;
 
-use FDC\Support\Record;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -72,14 +72,11 @@ class Files
 	 * standard relative/absolute path.
 	 *
 	 * @param  string 		$path
-	 * @param  string|null 	$disk
 	 * @return string|bool  Full path if the file is present.
 	 */
-	public static function fullPath(string $path, ?string $disk = null)
+	public static function fullPath(string $path)
 	{
-		return !$disk
-			? pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_BASENAME)
-			: Storage::disk($disk)->path($path);
+		return pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_BASENAME);
 	}
 
 	/**
@@ -99,7 +96,7 @@ class Files
 	 * @param string $fileName
 	 * @return string
 	 */
-	public static function getTemp(string $fileName): string
+	public static function getTmp(string $fileName): string
 	{
 		return file_get_contents(storage_path('app/tmp/' . $fileName));
 	}
@@ -110,7 +107,7 @@ class Files
 	 * @param  string  $content
 	 * @return string|bool
 	 */
-	public static function temp(string $content, string $extension)
+	public static function tmp(string $content, string $extension)
 	{
 		$path = static::generateTempFilePath($extension);
 		$dir = static::dirname($path);
@@ -155,15 +152,17 @@ class Files
 	 *
 	 * @param 	string|null     $directory  Path bucket root directory.
 	 * @param   string|null ...$contains
-	 * @return  Record
+	 * @return  Collection
 	 */
-	public static function s3Files(?string $directory = null, ?string ...$contains): Record
+	public static function s3Files(?string $directory = null, ?string ...$contains): Collection
 	{
 		$files = Storage::disk('s3')->files($directory);
 
-		return record(array_filter($files, function ($file) use ($contains) {
+		$files = $contains ? array_filter($files, function ($file) use ($contains) {
 			return Str::containsAll($file, $contains);
-		}));
+		}) : $files;
+
+		return collect($files);
 	}
 
 	/**
@@ -173,7 +172,7 @@ class Files
 	 * @return string
 	 * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
 	 */
-	public static function s3Temp(string $path): string
+	public static function s3Tmp(string $path): string
 	{
 		return static::temp(static::s3File($path), static::extension($path));
 	}

@@ -2,7 +2,7 @@
 
 namespace FDC\Support\Actions\Deposco;
 
-use FDC\Support\Deposco\Concerns\Request;
+use FDC\Support\Concerns\Deposco\Request;
 use Illuminate\Support\Collection;
 
 class GetOrderHeaders extends Request

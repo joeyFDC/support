@@ -3,7 +3,7 @@
 namespace FDC\Support;
 
 use \Google_Client;
-use FDC\Google\GoogleClient;
+use FDC\Support\GoogleClient;
 
 class Google
 {

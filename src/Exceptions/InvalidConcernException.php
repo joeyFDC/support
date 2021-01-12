@@ -2,8 +2,8 @@
 
 namespace FDC\Support\Exceptions;
 
-use LogicException;
-use Throwable;
+use \LogicException;
+use \Throwable;
 
 /**
  * Exception thrown when using or implementing a concern, but not any

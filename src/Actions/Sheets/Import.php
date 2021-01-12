@@ -7,7 +7,7 @@ use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToArray;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class ImportFile implements ToArray, WithHeadingRow
+class Import implements ToArray, WithHeadingRow
 {
 	use Importable;
 

@@ -1,18 +1,8 @@
 <?php
 
-namespace FDC\Support\Concerns\Google;
+namespace FDC\Support\Actions\Google;
 
-use Exception;
-use FDC\Support\Google\Concerns\GoogleAuthorization;
-use FDC\Support\Google\GoogleClient;
-
-/**
- * Provides a `getClient` method. Classes using this concern must also
- * implement the `GoogleAuthorization` concern.
- *
- * @see \FDC\Google\Concerns\GoogleAuthorization
- */
-trait GoogleServices
+class Authorization
 {
 	/**
 	 * Get an authorized `Google_Client` instance.

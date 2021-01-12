@@ -1,36 +1,26 @@
 <?php
 
-namespace FDC\Support;
+namespace FDC\Support\Actions\Google;
 
 use Google_Client;
 use Illuminate\Support\Facades\File;
 
-/**
- * Handles authorizing a Google API Client.
- *
- * A service class should implement `AuthorizeGoogleServices` and use `GoogleServices`.
- *
- * @see \FDC\Support\Concerns\AuthorizeGoogleServices
- * @see \FDC\Support\Conerns\GoogleServices
- */
-class GoogleClient
+class Client
 {
 	protected Google_Client $client;
-
+	protected string $auth;
 	protected string $token;
-
-	protected string $authConfig;
 
 	public function get(string ...$scopes): Google_Client
 	{
 		$this->token = config('google.token');
-		$this->authConfig = config('google.auth');
+		$this->auth = config('google.auth');
 
 		$this->client = new Google_Client;
 		$this->client->setApplicationName('FDC Google Services');
 		$this->client->setAccessType('offline');
 		$this->client->setPrompt('select_account consent');
-		$this->client->setAuthConfig($this->authConfig);
+		$this->client->setAuthConfig($this->auth);
 		$this->client->setScopes($scopes);
 
 		if ($this->setToken()) {

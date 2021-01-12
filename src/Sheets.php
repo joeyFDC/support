@@ -3,65 +3,44 @@
 namespace FDC\Support;
 
 use App\Http\Controllers\Controller;
-use FDC\Support\Actions\Sheets\ExportFile;
-use FDC\Support\Actions\Sheets\ImportFile;
-use FDC\Support\Actions\Sheets\GoogleImport;
-use FDC\Support\Record;
-use Illuminate\Support\Collection;
+use FDC\Support\Actions\Sheets\Export;
+use FDC\Support\Actions\Sheets\Import;
+use FDC\Support\Actions\Sheets\GoogleSheet;
 
 class Sheets extends Controller
 {
-
-	/** Cached data as a Record instance. */
-	public Record $data;
-
-
 	/**
-	 * Get the id for a configured Google Sheets alias.
+	 * Get content of csv, xls, xlsx or GoogleSheet as an array.
 	 *
-	 * @param string $alias
-	 * @return string
-	 */
-	public function alias(string $alias): string
-	{
-		return config('sheets.alias.' . $alias, $alias);
-	}
-
-	/**
-	 * Import the contents of a csv, xls or xlsx file as a Record class.
-	 *
-	 * @param string $filePath
+	 * @param string $type Either 'file' or 'google'
+	 * @param string $ref Path of 'file' | id of 'google' sheet
 	 * @param string|null $disk
-	 * @return Collection
 	 */
-	public function import(string $filePath, ?string $disk = null): Collection
+	public function import(string $type = 'file', string $ref, ?string $disk = null): array
 	{
-		return collect((new ImportFile))->toArray($filePath, $disk)[0];
+		return $type === 'file' ? (new Import)->toArray($ref, $disk)[0] : (new GoogleSheet)->toArray();
 	}
 
 	/**
-	 * Import the contents of a Google Sheet
+	 * Start a new export using a source `array`, `Collection` or `Record`.
 	 *
-	 * @param string $id
-	 * @param string $range
-	 * @return array
-	 */
-	public function google(string $id, string $range): array
-	{
-		return (new GoogleImport)->get($id, $range);
-	}
-
-	/**
-	 * Store data as a spreadsheet.
-	 *
-	 * @param array $data
-	 * @param string $filePath
+	 * @param array|Collection|Record $data
+	 * @param string|null $filePath
 	 * @param string|null $disk
-	 * @return string  Path to stored file.
 	 */
-	public function export(array $data, string $filePath, ?string $disk = null): string
+	public function export($data, ?string $filePath = null, ?string $disk = null)
 	{
-		$export = new ExportFile($data);
-		return $export->store($filePath, $disk);
+		(new Export($data, $filePath, $disk))->store();
+	}
+
+	/**
+	 * Export a source `array`, `Collection` or `Record` to a spreadsheet, and trigger client download.
+	 *
+	 * @param array|Collection|Record $data
+	 * @param string|null $filePath
+	 */
+	public function download($data, ?string $filePath = null)
+	{
+		(new Export($data, $filePath))->download();
 	}
 }
